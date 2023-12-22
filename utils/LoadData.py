@@ -9,6 +9,24 @@ USER_NAME = os.environ.get('USER_NAME')
 
 df = pd.read_csv(DATA_PATH)
 
-my_df = df.loc[df['User'] == USER_NAME]
+count = 0
+messages = []
+target = []
 
-print(my_df)
+while True:
+    print(count)
+    if count == len(df):
+        break
+    else:
+        user = df['User'][count]
+        mss = ''
+        for i in range(count, len(df)):
+            if user == df['User'][i]:
+                mss += (df['Message'][i] + "\n")
+                count += 1
+            else:
+                messages.append(mss)
+                target.append(user)
+                break
+
+print(target)
