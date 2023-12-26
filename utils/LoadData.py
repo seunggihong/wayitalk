@@ -1,13 +1,7 @@
 import pandas as pd
-from dotenv import load_dotenv
 import re
 from datetime import datetime
 import os
-
-load_dotenv()
-
-DATA_PATH = os.environ.get('DATA_PATH')
-USER_NAME = os.environ.get('USER_NAME')
 
 def load_data(data_path, file_format='.txt'):
     file_list = os.listdir(data_path)
@@ -34,7 +28,7 @@ def slice_data(data_frame, user_name):
     data = {'data':[], 'target':[]}
     cnt = 0
     while True:
-        if cnt == (len(df) -1) :
+        if cnt == (len(data_frame) -1) :
             break
         user = data_frame['user'][cnt]
         message = ''
@@ -51,8 +45,3 @@ def slice_data(data_frame, user_name):
             data['data'].append(message)
     
     return pd.DataFrame(data)
-
-if __name__ == '__main__':
-    df = load_data(DATA_PATH)
-    df = slice_data(df, USER_NAME)
-    print(df.info())
