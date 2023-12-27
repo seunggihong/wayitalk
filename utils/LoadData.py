@@ -2,6 +2,8 @@ import pandas as pd
 import re
 from datetime import datetime
 import os
+from tensorflow.keras.preprocessing import sequence
+from tensorflow.keras.preprocessing.text import Tokenizer
 
 def load_data(data_path, file_format='.txt'):
     file_list = os.listdir(data_path)
@@ -45,3 +47,11 @@ def slice_data(data_frame, user_name):
             data['data'].append(message)
     
     return pd.DataFrame(data)
+
+
+def tokenizer_to_pad(data_frame, max_len=20) :
+    tokenizer = Tokenizer()
+    tokenizer.fit_on_texts(data_frame)
+    encoded = tokenizer.texts_to_sequences(data_frame)
+    seq = sequence.pad_sequences(encoded, maxlen=max_len)
+    return seq
