@@ -1,5 +1,5 @@
 from konlpy.tag import Okt
-from utils.LoadData import slice_data, load_data
+from utils.LoadData import slice_data, load_data, tokenizer_to_pad
 from dotenv import load_dotenv
 import os
 import re
@@ -17,5 +17,8 @@ okt = Okt()
 df['data'] = df['data'].apply(lambda x : re.sub(r'[^ ㄱ-ㅣ가-힣]+', "", x))
 df['target'] = df['target'].apply(lambda x : re.sub(r'[^ ㄱ-ㅣ가-힣]+', "", x))
 
-df['data'] = df['data'].apply(lambda x : okt.se(x))
+df['data'] = df['data'].apply(lambda x : okt.morphs(x))
 df['target'] = df['target'].apply(lambda x : okt.morphs(x))
+
+data_seq = tokenizer_to_pad(df['data'])
+target_seq = tokenizer_to_pad(df['target'])
